@@ -1,0 +1,23 @@
+{
+  "name": "new-note-detector",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "log": "ts-node ./src/logger.ts",
+    "termux": "ts-node ./src/termux.ts",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore . --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/node-fetch": "2",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint": "^8.2.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "node-fetch": "2"
+  }
+}
