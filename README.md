@@ -26,7 +26,7 @@ const onUpdate = (state: ICountState): void =>
     }
 }
 
-const newNoteDetector = new NewNoteDetector(onUpdate)
+const newNoteDetector = new NewNoteDetector({ log: false }, onUpdate)
 newNoteDetector.start()
 ```
 最後にstart関数を呼び出すとインターバル実行が開始されます。
