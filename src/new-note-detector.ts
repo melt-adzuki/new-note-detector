@@ -35,7 +35,10 @@ export default class NewNoteDetector implements ICountState
 	public previous?: number
 	public current?: number
 
-	constructor(private trigger: (state: ICountState) => void)
+	constructor(
+		private config: { log: boolean },
+		private trigger?: (state: ICountState) => void,
+	)
 	{ }
 
 	private async update()
@@ -47,13 +50,36 @@ export default class NewNoteDetector implements ICountState
 			? false
 			: this.previous < this.current
 
-		this.trigger(this)
+		if (this.trigger) this.trigger(this)
+	}
+
+	private log()
+	{
+		const dateString = new Date().toLocaleString("ja-JP")
+
+		switch (this.hasValueChanged)
+		{
+		case false:
+			console.log(`\u001b[32m[LOG]    \u001b[0m${dateString} \u001b[33m${this.current}`)
+			break
+
+		case true:
+			console.log(`\u001b[31m[DETECT] \u001b[34m${dateString} \u001b[33m${this.current}`)
+			break
+
+		default:
+			throw new Error("Unexpected case executed.")
+		}
 	}
 
 	public start()
 	{
 		setInterval(
-			async () => { await this.update() },
+			async () =>
+			{
+				await this.update()
+				if (this.config.log) this.log()
+			},
 			Number(process.env.INTERVAL_SECONDS) * 1000,
 		)
 	}
