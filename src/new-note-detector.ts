@@ -11,16 +11,23 @@ namespace MisskeyApi {
 
 const getNotesCount = async (): Promise<number | undefined> =>
 {
-	const response = await fetch(
-		"https://misskey.io/api/users/show",
-		{
-			body: JSON.stringify({ username: process.env.TARGET_USERNAME }),
-			method: "POST",
-		},
-	)
+	try
+	{
+		const response = await fetch(
+			"https://misskey.io/api/users/show",
+			{
+				body: JSON.stringify({ username: process.env.TARGET_USERNAME }),
+				method: "POST",
+			},
+		)
 
-	const jsonData = await response.json() as MisskeyApi.User
-	return jsonData.notesCount
+		const jsonData = await response.json() as MisskeyApi.User
+		return jsonData.notesCount
+	}
+	catch (error)
+	{
+		console.log(`\u001b[35m[WARNING] \u001b[0m${error}`)
+	}
 }
 
 export interface ICountState {
@@ -60,11 +67,11 @@ export default class NewNoteDetector implements ICountState
 		switch (this.hasValueChanged)
 		{
 		case false:
-			console.log(`\u001b[32m[LOG]    \u001b[0m${dateString} \u001b[33m${this.current}`)
+			console.log(`\u001b[32m[LOG]     \u001b[0m${dateString} \u001b[33m${this.current}`)
 			break
 
 		case true:
-			console.log(`\u001b[31m[DETECT] \u001b[34m${dateString} \u001b[33m${this.current}`)
+			console.log(`\u001b[31m[DETECT]  \u001b[34m${dateString} \u001b[33m${this.current}`)
 			break
 
 		default:
