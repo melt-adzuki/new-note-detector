@@ -37,7 +37,7 @@ export default class NewNoteDetector implements ICountState
 
 	constructor(
 		private config: { log: boolean },
-		private trigger?: (state: ICountState) => void,
+		private hook?: (state: ICountState) => void,
 	)
 	{ }
 
@@ -50,7 +50,7 @@ export default class NewNoteDetector implements ICountState
 			? false
 			: this.previous < this.current
 
-		if (this.trigger) this.trigger(this)
+		if (this.hook) this.hook(this)
 	}
 
 	private log()
