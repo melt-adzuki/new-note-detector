@@ -9,7 +9,7 @@ namespace MisskeyApi {
 	}
 }
 
-const getNotesCount = async (): Promise<number> =>
+const getNotesCount = async (state: ICountState): Promise<number> =>
 {
 	const response = await fetch(
 		"https://misskey.io/api/users/show",
@@ -19,7 +19,10 @@ const getNotesCount = async (): Promise<number> =>
 		},
 	)
 
-	const jsonData = await response.json() as MisskeyApi.User
+	const jsonData = response.ok
+		? await response.json() as MisskeyApi.User
+		: { notesCount: state.current }
+
 	return jsonData.notesCount
 }
 
@@ -41,7 +44,7 @@ export default class NewNoteDetector implements ICountState
 	private async update()
 	{
 		this.previous = this.current
-		this.current = await getNotesCount()
+		this.current = await getNotesCount(this)
 
 		this.hasValueChanged = this.previous < this.current
 
