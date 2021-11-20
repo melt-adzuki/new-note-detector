@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "log": "ts-node ./src/logger.ts",
+    "ifttt": "ts-node ./src/ifttt.ts",
     "termux": "ts-node ./src/termux.ts",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore . --fix"
   },
