@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv"
-import fetch from "node-fetch"
+import axios from "axios"
 
 dotenv.config()
 
@@ -13,16 +13,12 @@ const getNotesCount = async (): Promise<number | undefined> =>
 {
 	try
 	{
-		const response = await fetch(
+		const response = await axios.post<MisskeyApi.User>(
 			"https://misskey.io/api/users/show",
-			{
-				body: JSON.stringify({ username: process.env.TARGET_USERNAME }),
-				method: "POST",
-			},
+			{ username: process.env.TARGET_USERNAME },
 		)
 
-		const jsonData = await response.json() as MisskeyApi.User
-		return jsonData.notesCount
+		return response.data.notesCount
 	}
 	catch (error)
 	{
