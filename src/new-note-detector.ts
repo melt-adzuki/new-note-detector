@@ -9,7 +9,7 @@ namespace MisskeyApi {
 	}
 }
 
-const getNotesCount = async (): Promise<number | undefined> =>
+const getNotesCount = async (): Promise<MisskeyApi.User["notesCount"] | undefined> =>
 {
 	try
 	{
